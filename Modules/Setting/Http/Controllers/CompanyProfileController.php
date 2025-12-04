@@ -13,6 +13,7 @@ class CompanyProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return Renderable
      */
     public function index()
@@ -20,11 +21,12 @@ class CompanyProfileController extends Controller
         abort_if(Gate::denies('access_settings'), 403);
         $profile = CompanyProfile::first();
 
-        return view('setting::company-profile.index',compact("profile"));
+        return view('setting::company-profile.index', compact('profile'));
     }
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return Renderable
      */
     public function create()
@@ -34,7 +36,7 @@ class CompanyProfileController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     *
      * @return Renderable
      */
     public function store(Request $request)
@@ -44,7 +46,8 @@ class CompanyProfileController extends Controller
 
     /**
      * Show the specified resource.
-     * @param int $id
+     *
+     * @param  int  $id
      * @return Renderable
      */
     public function show($id)
@@ -54,7 +57,8 @@ class CompanyProfileController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param int $id
+     *
+     * @param  int  $id
      * @return Renderable
      */
     public function edit($id)
@@ -64,8 +68,8 @@ class CompanyProfileController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
+     *
+     * @param  int  $id
      * @return Renderable
      */
     public function update(Request $request, $id)
@@ -73,54 +77,46 @@ class CompanyProfileController extends Controller
         abort_if(Gate::denies('access_settings'), 403);
         $profile = CompanyProfile::findOrfail($id);
         $logo = '';
-        if ($request->logo)
-        {
-            $filename=$request->logo->getClientOriginalName();
+        if ($request->logo) {
+            $filename = $request->logo->getClientOriginalName();
             $logo = $filename.'.'.$request->logo->extension();
 
             $request->logo->move(public_path('upload/images/settings'), $logo);
 
-        }
-        else{
+        } else {
             $logo = $profile->logo;
         }
 
         $footer_logo = '';
-        if ($request->footer_logo)
-        {
-            $filename=$request->footer_logo->getClientOriginalName();
+        if ($request->footer_logo) {
+            $filename = $request->footer_logo->getClientOriginalName();
             $footer_logo = $filename.'.'.$request->footer_logo->extension();
 
             $request->footer_logo->move(public_path('upload/images/settings'), $footer_logo);
 
-        }
-        else{
+        } else {
             $footer_logo = $profile->footer_logo;
         }
 
         $favicon = '';
-        if ($request->favicon)
-        {
-            $filename=$request->favicon->getClientOriginalName();
+        if ($request->favicon) {
+            $filename = $request->favicon->getClientOriginalName();
             $favicon = $filename.'.'.$request->favicon->extension();
 
             $request->favicon->move(public_path('upload/images/settings'), $favicon);
 
-        }
-        else{
+        } else {
             $favicon = $profile->favicon;
         }
 
         $image = '';
-        if ($request->image)
-        {
-            $filename=$request->image->getClientOriginalName();
+        if ($request->image) {
+            $filename = $request->image->getClientOriginalName();
             $image = $filename.'.'.$request->image->extension();
 
             $request->image->move(public_path('upload/images/settings'), $image);
 
-        }
-        else{
+        } else {
             $image = $profile->image;
         }
 
@@ -144,69 +140,74 @@ class CompanyProfileController extends Controller
             'youtube' => $request['youtube'],
             'meta_title' => $request['meta_title'],
             'meta_description' => $request['meta_description'],
-            'meta_keywords' => $request['meta_keywords']
+            'meta_keywords' => $request['meta_keywords'],
         ]);
-        
+
         return redirect()->route('company.index')->with('success', 'Updated Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     *
+     * @param  int  $id
      * @return Renderable
      */
     public function destroy($id)
     {
         //
     }
+
     public function whyUs()
     {
         $whyus = WhyUs::all();
-        return view('setting::company-profile.why-us',compact('whyus'));
+
+        return view('setting::company-profile.why-us', compact('whyus'));
     }
-    public function WhyUsStore(Request $request) 
+
+    public function WhyUsStore(Request $request)
     {
-        if ($request->icon)
-        {
-            $filename=$request->icon->getClientOriginalName();
+        if ($request->icon) {
+            $filename = $request->icon->getClientOriginalName();
             $icon = $filename.'.'.$request->icon->extension();
 
             $request->icon->move(public_path('upload/images/whyus'), $icon);
 
-        }else{
+        } else {
             $icon = 'noimage';
         }
         $whyus = WhyUs::create([
             'name' => $request['title'],
-            'icon' => $icon
+            'icon' => $icon,
         ]);
-         return back()->with('success','Successfully Created');
+
+        return back()->with('success', 'Successfully Created');
     }
+
     public function WhyUsUpdate(Request $request, $id)
     {
         $whyus = WhyUs::findOrfail($id);
-        if ($request->icon)
-        {
-            $filename=$request->icon->getClientOriginalName();
+        if ($request->icon) {
+            $filename = $request->icon->getClientOriginalName();
             $icon = $filename.'.'.$request->icon->extension();
 
             $request->icon->move(public_path('upload/images/whyus'), $icon);
 
-        }
-        else
-        {
-            $icon=$whyus->icon;
+        } else {
+            $icon = $whyus->icon;
         }
         $whyus->update([
             'name' => $request['title'],
-            'icon' => $icon
+            'icon' => $icon,
         ]);
-         return back()->with('success','Successfully Updated');
+
+        return back()->with('success', 'Successfully Updated');
     }
+
     public function WhyUsDelete($id)
     {
         $whyus = WhyUs::findOrfail($id);
         $whyus->delete();
-        return back()->with('success','Successfully Deleted');
+
+        return back()->with('success', 'Successfully Deleted');
     }
 }

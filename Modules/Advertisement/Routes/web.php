@@ -13,8 +13,13 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Advertisement\Http\Controllers\AdvertisementController;
+use Modules\Advertisement\Http\Controllers\ClientController;
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('advertisements', 'AdvertisementController');
-    Route::get('advertisement/status/{id}',[AdvertisementController::class,'status'])->name('advertisement.status');
+    Route::get('advertisement/status/{id}', [AdvertisementController::class, 'status'])->name('advertisement.status');
+
+    Route::resource('clients', ClientController::class)->names('clients');
+    Route::get('clients/status/{id}', [ClientController::class, 'status'])->name('clients.status');
+
 });

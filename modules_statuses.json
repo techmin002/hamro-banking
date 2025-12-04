@@ -12,5 +12,6 @@
     "Expenses": true,
     "Branch": true,
     "Product": true,
-    "Restaurent": true
+    "Restaurent": true,
+    "News": true
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('button_text')->nullable();
             $table->string('link')->nullable();
+            $table->string('client_id');
             $table->string('page');
             $table->string('position');
             $table->string('branch_id')->nullable();
